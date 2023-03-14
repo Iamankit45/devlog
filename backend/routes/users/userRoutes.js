@@ -25,6 +25,7 @@ const userRouter = express.Router();
 
 const upload=multer({storage});
 
+
 userRouter.post("/register", userRegisterCtrl);
 
 //POST/api/v1/users/login

@@ -9,7 +9,7 @@ const getTokenFromHeader = require("../../utils/getTokenFromHeader");
 const { findById } = require("../../model/post/post");
 
 const userRegisterCtrl = async (req, res, next) => {
-  const { name, email, password,userName} = req.body;
+  const { name, email, password, userName } = req.body;
 
   try {
     //checking if email is already exist
@@ -23,11 +23,11 @@ const userRegisterCtrl = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-   name,
-      
+      name,
+
       email,
       password: hashedPassword,
-      userName
+      userName,
     });
 
     res.json({

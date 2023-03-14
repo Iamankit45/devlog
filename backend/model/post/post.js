@@ -10,12 +10,15 @@ const postSchema=new mongoose.Schema({
       },
       subtitle: {
         type: String,
+        required: [true, "Post Title is required"],
       },
       minute_read: {
         type: String,
+        required: [true, "Post Title is required"],
       },
       content: {
         type: String,
+        required: [true, "Post Title is required"],
       },
       report_number: { type: String },
       is_Bookmared: [
@@ -25,29 +28,30 @@ const postSchema=new mongoose.Schema({
         },
       ],
       category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        // required: [true, "Post category is required"],
+        type: String,
+        // ref: "Category",
+       
       },
-      numViews: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
+      // numViews: [
+      //   {
+      //     type: mongoose.Schema.Types.ObjectId,
+      //     ref: "User",
+      //   },
+      // ],
       likes: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
         },
       ],
-      disLikes: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
+      // disLikes: [
+      //   {
+      //     type: mongoose.Schema.Types.ObjectId,
+      //     ref: "User",
+      //   },
+      // ],
   
+
       comments: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -63,7 +67,13 @@ const postSchema=new mongoose.Schema({
         type: String,
         // required: [true, "Post Image is required"],
       },
+      ContainImage:{
+        type:Boolean,
+        default: false,
+        required: [true, "Please specify that your post contains an image or not"]
+      }
     },
+      
     {
       timestamps: true,
       toJSON: { virtuals: true },
@@ -78,11 +88,11 @@ postSchema.pre(/^find/, function(next) {
 
 //adding views count as virtual field
 
-postSchema.virtual("viewscount").get(function() {
+// postSchema.virtual("viewscount").get(function() {
 
-  const post = this;
-  return post.numViews.length;
-})
+//   const post = this;
+//   return post.numViews.length;
+// })
 
 postSchema.virtual("likescount").get(function() {
 
@@ -90,29 +100,29 @@ postSchema.virtual("likescount").get(function() {
   return post.likes.length;
 })
 
-postSchema.virtual("Dislikecount").get(function() {
+// postSchema.virtual("Dislikecount").get(function() {
 
-  const post = this;
-  return post.disLikes.length;
-})
+//   const post = this;
+//   return post.disLikes.length;
+// })
 
-postSchema.virtual("likesPercentage").get(function(){
-const post =this;
-const total = (post.likes.length+ post.disLikes.length);
-const percentage= (post.likes.length/total)*100;
-return `${percentage}%`
+// postSchema.virtual("likesPercentage").get(function(){
+// const post =this;
+// const total = (post.likes.length+ post.disLikes.length);
+// const percentage= (post.likes.length/total)*100;
+// return `${percentage}%`
 
 
-})
+// })
 
-postSchema.virtual("DislikePercentage").get(function(){
-  const post =this;
-  const total = (post.likes.length+ post.disLikes.length);
-  const percentage= (post.disLikes.length/total)*100;
-  return `${percentage}%`
+// postSchema.virtual("DislikePercentage").get(function(){
+//   const post =this;
+//   const total = (post.likes.length+ post.disLikes.length);
+//   const percentage= (post.disLikes.length/total)*100;
+//   return `${percentage}%`
   
   
-  })
+//   })
 
 postSchema.virtual("daysAgo").get(function(){
 const post=this;

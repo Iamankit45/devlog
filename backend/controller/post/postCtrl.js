@@ -4,7 +4,7 @@ const Category = require("../../model/category/category");
 const appErr = require("../../utils/appErr");
 
 const createPostCtrl = async (req, res, next) => {
-  const { title,subtitle,category,content,minute_read } = req.body;
+  const { title,subtitle,category,content,minute_read,ContainImage,} = req.body;
 
   try {
     const author = await User.findById(req.userAuth);
@@ -17,11 +17,12 @@ const createPostCtrl = async (req, res, next) => {
     const postCreated = await Post.create({
       title,
       subtitle,
-   
+      ContainImage,
       user: author._id,
       category,
       content,
       minute_read,
+
       photo: req && req.file && req.file.path,
     });
 
@@ -44,19 +45,19 @@ const fetchPostCtrl = async (req, res,next) => {
   try {
     const posts = await Post.find({})
       .populate("user")
-      .populate("category", "title");
+      // .populate("category", "title");
 
     // jo user hume block kr chuka hai ..uska post hu nhi dekh payenge ....
-    const filteredPost = posts.filter((post) => {
-      const blockedUsers = post.user.blocked;
-      const isBlocked = blockedUsers.includes(req.userAuth);
-      console.log(isBlocked);
-      return isBlocked ? null : post;
-    });
+    // const filteredPost = posts.filter((post) => {
+    //   const blockedUsers = post.user.blocked;
+    //   const isBlocked = blockedUsers.includes(req.userAuth);
+    //   console.log(isBlocked);
+    //   return isBlocked ? null : post;
+    // });
 
     res.json({
       status: "success",
-      data: filteredPost,
+      data: posts,
     });
   } catch (error) {
     next(appErr(error.message));

@@ -28,24 +28,25 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
     },
 
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
-    role: {
-      type: String,
-      enum: ["Admin", "Guest", "Editor"],
-    },
-    viewers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    // isBlocked: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // isAdmin: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // role: {
+    //   type: String,
+    //   default:'User',
+    //   enum: ["Admin", "Guest", "Editor"],
+    // },
+    // viewers: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -71,12 +72,12 @@ const userSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
-    blocked: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    // blocked: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
 
     // plan: [
     //   {
@@ -123,14 +124,14 @@ userSchema.virtual("following-count").get(function () {
 });
 
 //get viewers count
-userSchema.virtual("viewers-count").get(function () {
-  return this.viewers.length;
-});
+// userSchema.virtual("viewers-count").get(function () {
+//   return this.viewers.length;
+// });
 
 //get blocked count
-userSchema.virtual("blocked-count").get(function () {
-  return this.blocked.length;
-});
+// userSchema.virtual("blocked-count").get(function () {
+//   return this.blocked.length;
+// });
 
 const User = mongoose.model("User", userSchema);
 
